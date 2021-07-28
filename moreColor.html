@@ -5,23 +5,25 @@
     <title>echarts中国地图</title>
     <style>
       html,
-      body{
+      body {
         margin: 0;
         padding: 0;
         border: 0;
+        width: 100%;
+        height: 100%;
         background-color: #182533;
       }
-      .page{
+      .page {
         margin: 0;
         padding: 0;
         border: 0;
-        width: 1920px;
-        height: 1080px;
+        width: 100%;
+        height: 100%;
         transform-origin: left top;
       }
       .centerItem {
-        width: 1920px;
-        height: 1080px;
+        width: 100%;
+        height: 100%;
         position: relative;
         background-color: #182533;
         margin: 0px auto 0 auto;
@@ -32,6 +34,7 @@
         position: absolute;
         top: 500px;
         left: 500px;
+        display: none;
       }
       .childdiv[data-privence="北京"] {
         top: 350px;
@@ -163,8 +166,8 @@
       }
       .tooltip {
         position: absolute;
-        bottom: 50px;
-        left: 50px;
+        bottom: 20px;
+        left: 20px;
         color: #fff;
       }
       .tooltip p {
@@ -206,17 +209,16 @@
 
   <body>
     <div class="page">
-    <!-- 中国地图展示 -->
-    <div id="china-map" class="centerItem">
-    </div>
-    <div class="tooltip">
-      <p><img src="./img/人口人流.png" />人口人流</p>
-      <p><img src="./img/短信发送.png" />短信发送</p>
-      <p><img src="./img/离线.png" />离线</p>
-      <p><img src="./img/实时.png" />实时</p>
-      <p><img src="./img/洞察云.png" />洞察云</p>
-      <p><img src="./img/营销云.png" />营销云</p>
-    </div>
+      <!-- 中国地图展示 -->
+      <div id="china-map" class="centerItem"></div>
+      <div class="tooltip">
+        <p><img src="./img/人口人流.png" />人口人流</p>
+        <p><img src="./img/短信发送.png" />短信发送</p>
+        <p><img src="./img/离线.png" />离线</p>
+        <p><img src="./img/实时.png" />实时</p>
+        <p><img src="./img/洞察云.png" />洞察云</p>
+        <p><img src="./img/营销云.png" />营销云</p>
+      </div>
     </div>
     <!-- 引入相关文件 -->
     <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
@@ -225,10 +227,7 @@
     <script src="./js/echarts.js"></script>
     <script src="./js/china.js"></script>
     <script src="./js/geo.js"></script>
-
     <script>
-      // 基于准备好的dom，初始化echarts实例
-      var mapBoxEchart = echarts.init(document.getElementById("china-map"));
       var data = [
         {
           name: "北京",
@@ -571,159 +570,49 @@
           marketCloud: false,
         },
       ];
-
-      var convertData = function (data) {
-        var res = [];
-        for (var i = 0; i < data.length; i++) {
-          var geoCoord = geoCoordMap[data[i].name];
-          if (geoCoord) {
-            res.push({
-              name: data[i].name,
-              value: geoCoord.concat(data[i].value),
-            });
-          }
-        }
-        return res;
-      };
-      // 指定相关的配置项和数据
-      var mapBoxOption = {
-        geo: {
-          show: true,
-          map: "china",
-          aspectScale: 0.75,
-          zoom: 1.2,
-          label: {
-            normal: {
-              show: false,
-            },
-            emphasis: {
-              show: false,
-            },
-          },
-          roam: false,
-          itemStyle: {
-            normal: {
-              show: false,
-            },
-            emphasis: {
-              show: false, //areaColor: "#2B91B7",
-            },
-          },
-        },
-        visualMap: {
-          seriesIndex: 0,
-          orient: "horizontal",
-          //inverse: 2,
-          splitNumber: 2,
-          min: 0,
-          max: 1000000,
-          left: "2%",
-          top: "2%",
-          right: "40%",
-          type: "piecewise",
-          align: "left",
-          itemSymbol: "rect",
-          itemWidth: 56,
-          itemHeight: 56,
-          textGap: 10,
-          itemGap: 20,
-          textStyle: {
-            color: "#FFF",
-            fontSize: 20,
-            lineHeight: 20,
-          },
-          color: "green",
-          pieces: [
-            {
-              gte: 1,
-              lte: 10,
-              color: "#50E874",
-              label: "具备商务拓展省市",
-            },
-            {
-              gte: 11,
-              lte: 20,
-              color: "#50E9E6",
-              label: "建设中,部分完成",
-            },
-            {
-              gte: 31,
-              lte: 40,
-              color: "#50B5EA",
-              label: "沟通过程中",
-            },
-            {
-              gte: 21,
-              lte: 30,
-              color: "#4E7Ba6", //#4E7FE3
-              label: "无较大进展地方",
-            },
-          ],
-        },
-        series: [
-          {
-            type: "map",
-            mapType: "china",
-            label: {
-              normal: {
-                show: true, //显示省份标签
-                textStyle: {
-                  color: "#000",
-                  fontSize: 14,
-                }, //省份标签字体颜色
-              },
-              emphasis: {
-                //对应的鼠标悬浮效果
-                show: false,
-                textStyle: {
-                  color: "#800080",
-                },
-              },
-            },
-            aspectScale: 0.75,
-            zoom: 1.2,
-            itemStyle: {
-              normal: {
-                borderWidth: 0.5, //区域边框宽度
-                borderColor: "#009fe8", //区域边框颜色
-                areaColor: "#ffefd5", //区域颜色
-              },
-              emphasis: {
-                borderWidth: 0.5,
-                borderColor: "#4b0082",
-                areaColor: "#ffdead",
-              },
-            },
-            data: data, //各省地图颜色数据依赖value
-          },
-        ],
-      };
-      // 使用制定的配置项和数据显示图表
-      mapBoxEchart.setOption(mapBoxOption);
-      mapBoxEchart.off("click");
-      // echart图表自适应
-      window.addEventListener("resize", function () {
-        mapBoxEchart.resize();
-        var innerWidth = window.innerWidth;
-        var scale = innerWidth / 1920 ;
-        //console.log("resize")
-        $(".page").css("transform", "scale("+scale+")")
-      });
-      window.addEventListener("load", function () {
-        var innerWidth = window.innerWidth;
-        var scale = innerWidth / 1920 ;
-        //console.log("load");
-        $(".page").css("transform", "scale("+scale+")")
-      });
+      var data1 = [
+        { name: "北京", value: "王德宇" },
+        { name: "天津", value: "王德宇" },
+        { name: "河北", value: "王德宇" },
+        { name: "山西", value: "王德宇" },
+        { name: "内蒙古", value: "夏开洪" },
+        { name: "辽宁", value: "艾强" },
+        { name: "吉林", value: "夏开洪" },
+        { name: "黑龙江", value: "夏开洪" },
+        { name: "上海", value: "张举" },
+        { name: "江苏", value: "余蜀明" },
+        { name: "浙江", value: "余蜀明" },
+        { name: "安徽", value: "夏开洪" },
+        { name: "福建", value: "余蜀明" },
+        { name: "江西", value: "余蜀明" },
+        { name: "山东", value: "熊科文" },
+        { name: "河南", value: "邱洪云" },
+        { name: "湖北", value: "张举" },
+        { name: "湖南", value: "张举" },
+        { name: "重庆", value: "陈一万" },
+        { name: "四川", value: "贺鑫" },
+        { name: "贵州", value: "邱洪云" },
+        { name: "云南", value: "邱洪云" },
+        { name: "西藏", value: "余蜀明" },
+        { name: "陕西", value: "余蜀明" },
+        { name: "甘肃", value: "余蜀明" },
+        { name: "青海", value: "余蜀明" },
+        { name: "宁夏", value: "余蜀明" },
+        { name: "新疆", value: "李会凤" },
+        { name: "广东", value: "张举" },
+        { name: "广西", value: "余蜀明" },
+        { name: "海南", value: "余蜀明" },
+      ];
+      var picInfoList = [];
     </script>
     <script>
       let childList = data
         .filter((item) => {
-          return item.name != "香港" && item.name != "澳门";
+          return item.name != "香港" && item.name != "澳门" && item.name != "台湾";
         })
         .map((item, index) => {
           //console.log(index);
-          var parentdiv = $("#china-map");
+          var parentdiv = $(".page");
           var childdiv = $(
             "<div class='childdiv' data-privence=" + item.name + "></div>"
           ); //创建一个子div
@@ -842,7 +731,199 @@
           ],
         };
         childEchart.setOption(childOption);
+
+        childEchart.on("finished", {}, function () {
+          //console.log("finished");
+          var picInfo = childEchart.getDataURL({
+            type: "png",
+            pixelRatio: 2, //放大两倍下载，之后压缩到同等大小展示。解决生成图片在移动端模糊问题
+            //backgroundColor: "#fff",
+          }); //获取到的是一串base64信息
+          picInfoList.push(picInfo);
+          //console.log(picInfo)
+          if (picInfoList.length === 31) {
+            //console.log(picInfoList.length);
+            //console.log(picInfoList[30]);
+            // 基于准备好的dom，初始化echarts实例
+            var mapBoxEchart = echarts.init(
+              document.getElementById("china-map")
+            );
+
+            var convertData = function (data) {
+              var res = [];
+              for (var i = 0; i < data.length; i++) {
+                var geoCoord = geoCoordMap[data[i].name];
+                if (geoCoord) {
+                  res.push({
+                    name: data[i].name,
+                    value: geoCoord.concat(data[i].value),
+                  });
+                }
+              }
+              return res;
+            };
+            // 指定相关的配置项和数据
+            var mapBoxOption = {
+              geo: {
+                show: true,
+                map: "china",
+                aspectScale: 0.75,
+                zoom: 1.2,
+                label: {
+                  normal: {
+                    show: false,
+                  },
+                  emphasis: {
+                    show: false,
+                  },
+                },
+                roam: false,
+                itemStyle: {
+                  normal: {
+                    show: false,
+                  },
+                  emphasis: {
+                    show: false, //areaColor: "#2B91B7",
+                  },
+                },
+              },
+              visualMap: {
+                seriesIndex: 0,
+                orient: "horizontal",
+                //inverse: 2,
+                splitNumber: 2,
+                min: 0,
+                max: 1000000,
+                left: "2%",
+                top: "2%",
+                right: "40%",
+                type: "piecewise",
+                align: "left",
+                itemSymbol: "rect",
+                itemWidth: 28,
+                itemHeight: 28,
+                textGap: 10,
+                itemGap: 20,
+                textStyle: {
+                  color: "#FFF",
+                  fontSize: 18,
+                  lineHeight: 20,
+                },
+                color: "green",
+                pieces: [
+                  {
+                    gte: 1,
+                    lte: 10,
+                    color: "#50E874",
+                    label: "具备商务拓展省市",
+                  },
+                  {
+                    gte: 11,
+                    lte: 20,
+                    color: "#50E9E6",
+                    label: "建设中,部分完成",
+                  },
+                  {
+                    gte: 31,
+                    lte: 40,
+                    color: "#50B5EA",
+                    label: "沟通过程中",
+                  },
+                  {
+                    gte: 21,
+                    lte: 30,
+                    color: "#4E7Ba6", //#4E7FE3
+                    label: "无较大进展地方",
+                  },
+                ],
+              },
+              series: [
+                {
+                  type: "map",
+                  mapType: "china",
+                  label: {
+                    normal: {
+                      show: true, //显示省份标签
+                      textStyle: {
+                        color: "#000",
+                        fontSize: 14,
+                      }, //省份标签字体颜色
+                    },
+                    emphasis: {
+                      //对应的鼠标悬浮效果
+                      show: false,
+                      textStyle: {
+                        color: "#800080",
+                      },
+                    },
+                  },
+                  aspectScale: 0.75,
+                  zoom: 1.2,
+                  itemStyle: {
+                    normal: {
+                      borderWidth: 0.5, //区域边框宽度
+                      borderColor: "#009fe8", //区域边框颜色
+                      areaColor: "#ffefd5", //区域颜色
+                    },
+                    emphasis: {
+                      borderWidth: 0.5,
+                      borderColor: "#4b0082",
+                      areaColor: "#ffdead",
+                    },
+                  },
+                  data: data, //各省地图颜色数据依赖value
+                },
+                //每增加一个name就增加一个图标，同时需要在geo.js中增加内容，内容中的经纬度会控制图标所在省份位置
+                //也需要在上面增加var 数组与geo.js的数组对应，data: convertData(xxx), xxx与var参数名一致
+                //symbol参数:‘circle’, ‘rect’, ‘roundRect’, ‘triangle’, ‘diamond’, ‘pin’, ‘arrow’
+                {
+                  name: "有名字有图标",
+                  type: "scatter",
+                  coordinateSystem: "geo",
+                  symbol: (number, obj)=> {
+                    return "image://" + picInfoList[obj.dataIndex];
+                  },
+                  //symbol: 'image://data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7',
+                  symbolSize: [60, 60],
+                  label: {
+                    normal: {
+                      show: true,
+                      textStyle: {
+                        color: "#fff",
+                        fontSize: 9,
+                      },
+                      formatter(value) {
+                        return "";
+                        return value.data.value[2];
+                      },
+                    },
+                  },
+                  itemStyle: {
+                    normal: {
+                      color: "#D80007", //标志颜色
+                    },
+                  },
+                  data: convertData(data1),
+                  showEffectOn: "render",
+                  rippleEffect: {
+                    brushType: "stroke",
+                  },
+                  hoverAnimation: true,
+                  zlevel: 0,
+                },
+              ],
+            };
+            // 使用制定的配置项和数据显示图表
+            mapBoxEchart.setOption(mapBoxOption);
+            mapBoxEchart.off("click");
+            // echart图表自适应
+            window.addEventListener("resize", function () {
+              mapBoxEchart.resize();
+            });
+          }
+        });
       });
     </script>
+    <script defer="defer"></script>
   </body>
 </html>
