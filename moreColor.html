@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>echarts中国地图</title>
+    <style>
+      html,
+      body{
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background-color: #182533;
+      }
+      .page{
+        margin: 0;
+        padding: 0;
+        border: 0;
+        width: 1920px;
+        height: 1080px;
+        transform-origin: left top;
+      }
+      .centerItem {
+        width: 1920px;
+        height: 1080px;
+        position: relative;
+        background-color: #182533;
+        margin: 0px auto 0 auto;
+      }
+      .childdiv {
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        top: 500px;
+        left: 500px;
+      }
+      .childdiv[data-privence="北京"] {
+        top: 350px;
+        left: 1200px;
+      }
+      .childdiv[data-privence="天津"] {
+        top: 420px;
+        left: 1265px;
+      }
+      .childdiv[data-privence="上海"] {
+        top: 640px;
+        left: 1360px;
+      }
+      .childdiv[data-privence="重庆"] {
+        top: 680px;
+        left: 1000px;
+      }
+      .childdiv[data-privence="河北"] {
+        top: 420px;
+        left: 1170px;
+      }
+      .childdiv[data-privence="河南"] {
+        top: 545px;
+        left: 1130px;
+      }
+      .childdiv[data-privence="云南"] {
+        top: 875px;
+        left: 860px;
+      }
+      .childdiv[data-privence="辽宁"] {
+        top: 340px;
+        left: 1310px;
+      }
+      .childdiv[data-privence="黑龙江"] {
+        top: 150px;
+        left: 1450px;
+      }
+      .childdiv[data-privence="湖南"] {
+        top: 720px;
+        left: 1080px;
+      }
+      .childdiv[data-privence="安徽"] {
+        top: 620px;
+        left: 1210px;
+      }
+      .childdiv[data-privence="山东"] {
+        top: 475px;
+        left: 1220px;
+      }
+      .childdiv[data-privence="新疆"] {
+        top: 320px;
+        left: 520px;
+      }
+      .childdiv[data-privence="江苏"] {
+        top: 570px;
+        left: 1270px;
+      }
+      .childdiv[data-privence="浙江"] {
+        top: 690px;
+        left: 1280px;
+      }
+      .childdiv[data-privence="江西"] {
+        top: 730px;
+        left: 1180px;
+      }
+      .childdiv[data-privence="湖北"] {
+        top: 640px;
+        left: 1090px;
+      }
+      .childdiv[data-privence="广西"] {
+        top: 850px;
+        left: 1030px;
+      }
+      .childdiv[data-privence="甘肃"] {
+        top: 520px;
+        left: 920px;
+      }
+      .childdiv[data-privence="山西"] {
+        top: 470px;
+        left: 1100px;
+      }
+      .childdiv[data-privence="内蒙古"] {
+        top: 350px;
+        left: 1040px;
+      }
+      .childdiv[data-privence="陕西"] {
+        top: 545px;
+        left: 1040px;
+      }
+      .childdiv[data-privence="吉林"] {
+        top: 300px;
+        left: 1430px;
+      }
+      .childdiv[data-privence="福建"] {
+        top: 780px;
+        left: 1240px;
+      }
+      .childdiv[data-privence="贵州"] {
+        top: 770px;
+        left: 1000px;
+      }
+      .childdiv[data-privence="广东"] {
+        top: 900px;
+        left: 1150px;
+      }
+      .childdiv[data-privence="青海"] {
+        top: 510px;
+        left: 710px;
+      }
+      .childdiv[data-privence="西藏"] {
+        top: 620px;
+        left: 560px;
+      }
+      .childdiv[data-privence="四川"] {
+        top: 650px;
+        left: 880px;
+      }
+      .childdiv[data-privence="宁夏"] {
+        top: 445px;
+        left: 970px;
+      }
+      .childdiv[data-privence="海南"] {
+        top: 1000px;
+        left: 990px;
+      }
+      .childdiv[data-privence="台湾"] {
+        top: 880px;
+        left: 1340px;
+      }
+      .tooltip {
+        position: absolute;
+        bottom: 50px;
+        left: 50px;
+        color: #fff;
+      }
+      .tooltip p {
+        position: relative;
+        padding-left: 40px;
+      }
+      .tooltip p::before {
+        content: "";
+        display: block;
+        width: 30px;
+        height: 8px;
+        background-color: #fbf306;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .tooltip p:nth-child(2)::before {
+        background-color: #fad505;
+      }
+      .tooltip p:nth-child(3)::before {
+        background-color: #3267d2;
+      }
+      .tooltip p:nth-child(4)::before {
+        background-color: #4e7fe3;
+      }
+      .tooltip p:nth-child(5)::before {
+        background-color: #e97551;
+      }
+      .tooltip p:nth-child(6)::before {
+        background-color: #e98d51;
+      }
+      .tooltip img {
+        margin-right: 16px;
+        vertical-align: text-bottom;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+    <!-- 中国地图展示 -->
+    <div id="china-map" class="centerItem">
+    </div>
+    <div class="tooltip">
+      <p><img src="./img/人口人流.png" />人口人流</p>
+      <p><img src="./img/短信发送.png" />短信发送</p>
+      <p><img src="./img/离线.png" />离线</p>
+      <p><img src="./img/实时.png" />实时</p>
+      <p><img src="./img/洞察云.png" />洞察云</p>
+      <p><img src="./img/营销云.png" />营销云</p>
+    </div>
+    </div>
+    <!-- 引入相关文件 -->
+    <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="./js/echarts.js"></script>
+    <script src="./js/china.js"></script>
+    <script src="./js/geo.js"></script>
+
+    <script>
+      // 基于准备好的dom，初始化echarts实例
+      var mapBoxEchart = echarts.init(document.getElementById("china-map"));
+      var data = [
+        {
+          name: "北京",
+          value: 2,
+          population: true,
+          sms: false,
+          offLine: true,
+          realLine: false,
+          insightClound: true,
+          marketCloud: false,
+        },
+        {
+          name: "天津",
+          value: 12,
+          population: false,
+          sms: false,
+          offLine: false,
+          realLine: false,
+          insightClound: false,
+          marketCloud: false,
+        },
+        {
+          name: "上海",
+          value: 12,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "重庆",
+          value: 2,
+          population: true,
+          sms: false,
+          offLine: true,
+          realLine: false,
+          insightClound: true,
+          marketCloud: false,
+        },
+        {
+          name: "河北",
+          value: 2,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "河南",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "云南",
+          value: 12,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "辽宁",
+          value: 12,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "黑龙江",
+          value: 2,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "湖南",
+          value: 32,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "安徽",
+          value: 32,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "山东",
+          value: 2,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "新疆",
+          value: 2,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "江苏",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "浙江",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "江西",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "湖北",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "广西",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "甘肃",
+          value: 32,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "山西",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "内蒙古",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "陕西",
+          value: 2,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "吉林",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "福建",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "贵州",
+          value: 32,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "广东",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "青海",
+          value: 2,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "西藏",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "四川",
+          value: 12,
+          population: true,
+          sms: true,
+          offLine: false,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "宁夏",
+          value: 32,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "海南",
+          value: 32,
+          population: false,
+          sms: true,
+          offLine: true,
+          realLine: false,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "台湾",
+          value: 22,
+          population: false,
+          sms: false,
+          offLine: false,
+          realLine: false,
+          insightClound: false,
+          marketCloud: false,
+        },
+        {
+          name: "香港",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: true,
+          realLine: true,
+          insightClound: true,
+          marketCloud: true,
+        },
+        {
+          name: "澳门",
+          value: 22,
+          population: true,
+          sms: true,
+          offLine: false,
+          realLine: true,
+          insightClound: true,
+          marketCloud: false,
+        },
+      ];
+
+      var convertData = function (data) {
+        var res = [];
+        for (var i = 0; i < data.length; i++) {
+          var geoCoord = geoCoordMap[data[i].name];
+          if (geoCoord) {
+            res.push({
+              name: data[i].name,
+              value: geoCoord.concat(data[i].value),
+            });
+          }
+        }
+        return res;
+      };
+      // 指定相关的配置项和数据
+      var mapBoxOption = {
+        geo: {
+          show: true,
+          map: "china",
+          aspectScale: 0.75,
+          zoom: 1.2,
+          label: {
+            normal: {
+              show: false,
+            },
+            emphasis: {
+              show: false,
+            },
+          },
+          roam: false,
+          itemStyle: {
+            normal: {
+              show: false,
+            },
+            emphasis: {
+              show: false, //areaColor: "#2B91B7",
+            },
+          },
+        },
+        visualMap: {
+          seriesIndex: 0,
+          orient: "horizontal",
+          //inverse: 2,
+          splitNumber: 2,
+          min: 0,
+          max: 1000000,
+          left: "2%",
+          top: "2%",
+          right: "40%",
+          type: "piecewise",
+          align: "left",
+          itemSymbol: "rect",
+          itemWidth: 56,
+          itemHeight: 56,
+          textGap: 10,
+          itemGap: 20,
+          textStyle: {
+            color: "#FFF",
+            fontSize: 20,
+            lineHeight: 20,
+          },
+          color: "green",
+          pieces: [
+            {
+              gte: 1,
+              lte: 10,
+              color: "#50E874",
+              label: "具备商务拓展省市",
+            },
+            {
+              gte: 11,
+              lte: 20,
+              color: "#50E9E6",
+              label: "建设中,部分完成",
+            },
+            {
+              gte: 31,
+              lte: 40,
+              color: "#50B5EA",
+              label: "沟通过程中",
+            },
+            {
+              gte: 21,
+              lte: 30,
+              color: "#4E7Ba6", //#4E7FE3
+              label: "无较大进展地方",
+            },
+          ],
+        },
+        series: [
+          {
+            type: "map",
+            mapType: "china",
+            label: {
+              normal: {
+                show: true, //显示省份标签
+                textStyle: {
+                  color: "#000",
+                  fontSize: 14,
+                }, //省份标签字体颜色
+              },
+              emphasis: {
+                //对应的鼠标悬浮效果
+                show: false,
+                textStyle: {
+                  color: "#800080",
+                },
+              },
+            },
+            aspectScale: 0.75,
+            zoom: 1.2,
+            itemStyle: {
+              normal: {
+                borderWidth: 0.5, //区域边框宽度
+                borderColor: "#009fe8", //区域边框颜色
+                areaColor: "#ffefd5", //区域颜色
+              },
+              emphasis: {
+                borderWidth: 0.5,
+                borderColor: "#4b0082",
+                areaColor: "#ffdead",
+              },
+            },
+            data: data, //各省地图颜色数据依赖value
+          },
+        ],
+      };
+      // 使用制定的配置项和数据显示图表
+      mapBoxEchart.setOption(mapBoxOption);
+      mapBoxEchart.off("click");
+      // echart图表自适应
+      window.addEventListener("resize", function () {
+        mapBoxEchart.resize();
+        var innerWidth = window.innerWidth;
+        var scale = innerWidth / 1920 ;
+        //console.log("resize")
+        $(".page").css("transform", "scale("+scale+")")
+      });
+      window.addEventListener("load", function () {
+        var innerWidth = window.innerWidth;
+        var scale = innerWidth / 1920 ;
+        //console.log("load");
+        $(".page").css("transform", "scale("+scale+")")
+      });
+    </script>
+    <script>
+      let childList = data
+        .filter((item) => {
+          return item.name != "香港" && item.name != "澳门";
+        })
+        .map((item, index) => {
+          //console.log(index);
+          var parentdiv = $("#china-map");
+          var childdiv = $(
+            "<div class='childdiv' data-privence=" + item.name + "></div>"
+          ); //创建一个子div
+          childdiv.attr("id", "child" + index); //给子div设置id
+          childdiv.appendTo(parentdiv); //将子div添加到父div中
+          return item;
+        });
+
+      childList.map((item, i) => {
+        var childEchart = echarts.init(document.getElementById("child" + i));
+        let gray = "#ccc";
+        //console.log(item, i)
+        var childOption = {
+          grid: {
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+          },
+          color: [
+            item.population ? "#FBF306" : "#ccc",
+            item.sms ? "#FAD505" : "#ccc",
+            item.offLine ? "#3267D2" : "#ccc",
+            item.realLine ? "#4E7FE3" : "#ccc",
+            item.insightClound ? "#E97551" : "#ccc",
+            item.marketCloud ? "#E98D51" : "#ccc",
+          ],
+          series: [
+            {
+              name: "访问来源",
+              type: "pie",
+              radius: "100%",
+              silent: true,
+              label: {
+                show: true,
+                position: "inside",
+                formatter: (item) => {
+                  var text = '{a|""}';
+                  if (item.name == "洞察云") {
+                    text = '{a|""}';
+                  }
+                  if (item.name == "实时") {
+                    text = '{b|""}';
+                  }
+                  if (item.name == "人口人流") {
+                    text = '{c|""}';
+                  }
+                  if (item.name == "短信发送") {
+                    text = '{d|""}';
+                  }
+                  if (item.name == "离线") {
+                    text = '{e|""}';
+                  }
+                  if (item.name == "营销云") {
+                    text = '{f|""}';
+                  }
+                  return text;
+                },
+                rich: {
+                  a: {
+                    backgroundColor: {
+                      image: "./img/洞察云.png",
+                    },
+                    width: 14,
+                    height: 14,
+                  },
+                  b: {
+                    backgroundColor: {
+                      image: "./img/实时.png",
+                    },
+                    width: 14,
+                    height: 14,
+                  },
+                  c: {
+                    backgroundColor: {
+                      image: "./img/人口人流.png",
+                    },
+                    width: 14,
+                    height: 14,
+                  },
+                  d: {
+                    backgroundColor: {
+                      image: "./img/短信发送.png",
+                    },
+                    width: 14,
+                    height: 14,
+                  },
+                  e: {
+                    backgroundColor: {
+                      image: "./img/离线.png",
+                    },
+                    width: 14,
+                    height: 14,
+                  },
+                  f: {
+                    backgroundColor: {
+                      image: "./img/营销云.png",
+                    },
+                    width: 14,
+                    height: 14,
+                  },
+                },
+              },
+              emphasis: {
+                scale: false,
+              },
+              data: [
+                { value: 1, name: "人口人流" },
+                { value: 1, name: "短信发送" },
+                { value: 1, name: "离线" },
+                { value: 1, name: "实时" },
+                { value: 1, name: "洞察云" },
+                { value: 1, name: "营销云" },
+              ],
+            },
+          ],
+        };
+        childEchart.setOption(childOption);
+      });
+    </script>
+  </body>
+</html>
