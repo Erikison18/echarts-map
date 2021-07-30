@@ -252,7 +252,7 @@
         {
           name: "上海",
           value: 12,
-          population: true,
+          population: false,
           sms: true,
           offLine: true,
           realLine: true,
@@ -608,7 +608,9 @@
     <script>
       let childList = data
         .filter((item) => {
-          return item.name != "香港" && item.name != "澳门" && item.name != "台湾";
+          return (
+            item.name != "香港" && item.name != "澳门" && item.name != "台湾"
+          );
         })
         .map((item, index) => {
           //console.log(index);
@@ -669,10 +671,16 @@
                   if (item.name == "营销云") {
                     text = '{f|""}';
                   }
-                  return text;
+                  return '{w|'+item.name.slice(0,2)+'}';
+                  //return text;
                 },
                 rich: {
-                  a: {
+                  w: {
+                    color: "#663366",
+                    fontWeight: "bold",
+                    fontSize: 8,
+                  },
+                  /*a: {
                     backgroundColor: {
                       image: "./img/洞察云.png",
                     },
@@ -713,7 +721,7 @@
                     },
                     width: 14,
                     height: 14,
-                  },
+                  },*/
                 },
               },
               emphasis: {
@@ -733,7 +741,7 @@
         childEchart.setOption(childOption);
 
         childEchart.on("finished", {}, function () {
-          //console.log("finished");
+          //console.log("finished", childEchart);
           var picInfo = childEchart.getDataURL({
             type: "png",
             pixelRatio: 2, //放大两倍下载，之后压缩到同等大小展示。解决生成图片在移动端模糊问题
@@ -880,7 +888,7 @@
                   name: "有名字有图标",
                   type: "scatter",
                   coordinateSystem: "geo",
-                  symbol: (number, obj)=> {
+                  symbol: (number, obj) => {
                     return "image://" + picInfoList[obj.dataIndex];
                   },
                   //symbol: 'image://data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7',

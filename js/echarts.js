@@ -7654,6 +7654,7 @@ Layer.prototype = {
             }
 
             this.ctxBack.globalCompositeOperation = 'copy';
+            dom.setAttribute("crossOrigin",'Anonymous')
             this.ctxBack.drawImage(
                 dom, 0, 0,
                 width / dpr,
@@ -7690,6 +7691,7 @@ Layer.prototype = {
             var domBack = this.domBack;
             ctx.save();
             ctx.globalAlpha = lastFrameAlpha;
+            domBack.setAttribute("crossOrigin",'Anonymous')
             ctx.drawImage(domBack, 0, 0, width, height);
             ctx.restore();
         }
@@ -9033,6 +9035,7 @@ function drawBackground(hostEl, ctx, style, x, y, width, height) {
             image, null, hostEl, onBgImageLoaded, textBackgroundColor
         );
         if (image && isImageReady(image)) {
+            image.setAttribute("crossOrigin",'Anonymous')
             ctx.drawImage(image, x, y, width, height);
         }
     }
@@ -9569,7 +9572,7 @@ ZImage.prototype = {
 
         // 设置transform
         this.setTransform(ctx);
-
+        image.setAttribute("crossOrigin",'Anonymous')
         if (style.sWidth && style.sHeight) {
             var sx = style.sx || 0;
             var sy = style.sy || 0;
@@ -10013,6 +10016,7 @@ Painter.prototype = {
         // PENDING, If only builtin layer?
         this.eachBuiltinLayer(function (layer) {
             if (layer.virtual) {
+                layer.dom.setAttribute("crossOrigin",'Anonymous')
                 ctx.drawImage(layer.dom, 0, 0, width, height);
             }
         });
@@ -10544,6 +10548,7 @@ Painter.prototype = {
             var ctx = imageLayer.ctx;
             this.eachLayer(function (layer) {
                 if (layer.__builtin__) {
+                    layer.dom.setAttribute("crossOrigin",'Anonymous')
                     ctx.drawImage(layer.dom, 0, 0, width, height);
                 }
                 else if (layer.renderToCanvas) {
@@ -67313,6 +67318,7 @@ Heatmap.prototype = {
 
             // draw with the circle brush with alpha
             ctx.globalAlpha = alpha;
+            brush.setAttribute("crossOrigin",'Anonymous')
             ctx.drawImage(brush, x - r, y - r);
         }
 
